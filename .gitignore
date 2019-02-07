@@ -1,0 +1,15 @@
+*.class
+bin
+build
+out
+.sass-cache
+.gradle
+
+.idea/**/gradle.xml
+.idea/**/libraries
+
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+gradle/.DS_Store
+.DS_Store
