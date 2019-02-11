@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d19676ff-aa2f-4d6f-9830-ade0193dbc33" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/wolox/training/controllers/BookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/wolox.training.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/wolox.training.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/wolox.training.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/wolox.training.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/wolox/training/TrainingApplication.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -25,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3820">
-              <caret line="191" column="76" selection-start-line="191" selection-start-column="76" selection-end-line="191" selection-end-column="76" />
+            <state relative-caret-position="3780">
+              <caret line="189" column="76" selection-start-line="189" selection-start-column="76" selection-end-line="189" selection-end-column="76" />
             </state>
           </provider>
         </entry>
