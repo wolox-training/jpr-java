@@ -1,0 +1,9 @@
+*.class
+bin
+build
+out
+.sass-cache
+.gradle
+.idea
+gradle/.DS_Store
+.DS_Store
