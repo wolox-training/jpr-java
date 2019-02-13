@@ -52,6 +52,14 @@ public class Book {
         this.pages = pages;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getGenre() {
         return genre;
     }
