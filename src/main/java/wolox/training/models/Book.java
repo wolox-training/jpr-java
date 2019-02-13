@@ -1,15 +1,13 @@
 package wolox.training.models;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
+@Entity
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private  String genre;
 
@@ -36,6 +34,8 @@ public class Book {
 
     @Column(nullable = false)
     private Integer pages;
+
+    public Book(){ }
 
     public Book(String author, String image, String title, String subtitle, String publisher, String year,
                 String isbn, Integer pages) {
