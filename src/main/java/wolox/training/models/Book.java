@@ -9,7 +9,8 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @Column(nullable = false)
+    private Long id;
 
     private  String genre;
 
@@ -36,6 +37,8 @@ public class Book {
 
     @Column(nullable = false)
     private Integer pages;
+
+    public Book(){ }
 
     public Book(String author, String image, String title, String subtitle, String publisher, String year,
                 String isbn, Integer pages) {
