@@ -5,10 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import wolox.training.exceptions.BookIdMismatchException;
+import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
-@Controller
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -33,9 +34,9 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public BookRepository findOne(@PathVariable Long id) {
+    public Book findOne(@PathVariable Long id) throws BookNotFoundException {
         return bookRepository.findById(id)
-                .orElseThrow(BookNotFoundException::new);
+                .orElseThrow(() -> new BookNotFoundException("The book searched wasn't found in the DB"));
     }
 
     @PostMapping
@@ -45,19 +46,19 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) throws BookNotFoundException {
         bookRepository.findById(id)
-                .orElseThrow(BookNotFoundException::new);
+                .orElseThrow(() -> new BookNotFoundException("The book searched wasn't found in the DB"));
         bookRepository.deleteById(id);
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
+    public Book updateBook(@RequestBody Book book, @PathVariable Long id) throws BookIdMismatchException, BookNotFoundException {
         if (book.getId() != id) {
-            throw new BookIdMismatchException();
+            throw new BookIdMismatchException("The ID entered doesn't match any Book ID in the DB");
         }
         bookRepository.findById(id)
-                .orElseThrow(BookNotFoundException::new);
+                .orElseThrow(() -> new BookNotFoundException("The book searched wasn't found in the DB"));
         return bookRepository.save(book);
     }
 }
