@@ -1,7 +1,6 @@
 package wolox.training.models;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -134,7 +133,7 @@ public class Book {
         this.pages = pages;
     }
 
-    public Collection getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
