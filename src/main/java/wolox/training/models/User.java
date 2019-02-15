@@ -3,11 +3,9 @@ package wolox.training.models;
 import org.springframework.beans.factory.annotation.Autowired;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.repositories.BookRepository;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class User {
@@ -29,16 +27,19 @@ public class User {
     private LocalDate birthdate;
 
     @Column(nullable = false)
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Collection<Book> books;
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinTable(name = "book_user",
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "id"))
+    private List<Book> books;
 
     public User(){ }
 
-    public User(String username, String name, LocalDate birthdate, Collection<Book> books) {
+    public User(String username, String name, LocalDate birthdate) {
         this.username = username;
         this.name = name;
         this.birthdate = birthdate;
-        this.books = books;
     }
 
     public Long getId() {
@@ -73,11 +74,11 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    public Collection<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Collection<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
