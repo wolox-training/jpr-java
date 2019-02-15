@@ -1,11 +1,19 @@
 package wolox.training.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.repositories.BookRepository;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
 public class User {
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +29,8 @@ public class User {
     private LocalDate birthdate;
 
     @Column(nullable = false)
-    private Collection<Book> books = new Collection<Book>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Collection<Book> books;
 
     public User(){ }
 
@@ -70,5 +79,15 @@ public class User {
 
     public void setBooks(Collection<Book> books) {
         this.books = books;
+    }
+
+    public void addBookToCollection(Book book){
+        this.books.add(book);
+    }
+
+    public void deleteBookFromCollection(Long bookId) throws BookNotFoundException {
+        this.bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException("The book searched wasn't found in the DB"));
+        this.bookRepository.deleteById(id);
     }
 }

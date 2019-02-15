@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Book {
@@ -34,6 +35,9 @@ public class Book {
 
     @Column(nullable = false)
     private Integer pages;
+
+    @ManyToMany(mappedBy = "books")
+    private Collection users;
 
     public Book(){ }
 
@@ -127,5 +131,13 @@ public class Book {
 
     public void setPages(Integer pages) {
         this.pages = pages;
+    }
+
+    public Collection getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection users) {
+        this.users = users;
     }
 }
