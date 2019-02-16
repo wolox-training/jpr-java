@@ -19,7 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique=true)
     private  String username;
 
     @Column(nullable = false)
@@ -84,10 +84,10 @@ public class User {
         if (this.books.isEmpty()){
             throw new BookNotFoundException("The book searched wasn't found in the DB");
         }else{
-            Optional book_to_delete = this.books.stream().filter(book -> book.getId().equals(bookId))
+            Optional bookToDelete = this.books.stream().filter(book -> book.getId().equals(bookId))
                     .findFirst();
-            if (book_to_delete.isPresent()) {
-                this.books.remove(book_to_delete);
+            if (bookToDelete.isPresent()) {
+                this.books.remove(bookToDelete);
             }else{ throw new BookNotFoundException("The book searched wasn't found in the DB"); }
         }
     }
