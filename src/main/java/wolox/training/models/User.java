@@ -5,7 +5,9 @@ import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.repositories.BookRepository;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class User {
@@ -28,11 +30,7 @@ public class User {
 
     @Column(nullable = false)
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(name = "book_user",
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id",
-                    referencedColumnName = "id"))
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public User(){ }
 
@@ -44,10 +42,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -87,8 +81,14 @@ public class User {
     }
 
     public void deleteBookFromCollection(Long bookId) throws BookNotFoundException {
-        this.bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException("The book searched wasn't found in the DB"));
-        this.bookRepository.deleteById(id);
+        if (this.books.isEmpty()){
+            throw new BookNotFoundException("The book searched wasn't found in the DB");
+        }else{
+            Optional book_to_delete = this.books.stream().filter(book -> book.getId().equals(bookId))
+                    .findFirst();
+            if (book_to_delete.isPresent()) {
+                this.books.remove(book_to_delete);
+            }else{ throw new BookNotFoundException("The book searched wasn't found in the DB"); }
+        }
     }
 }
