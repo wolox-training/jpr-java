@@ -12,9 +12,6 @@ import java.util.Optional;
 @Entity
 public class User {
 
-    @Autowired
-    private BookRepository bookRepository;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -81,14 +78,10 @@ public class User {
     }
 
     public void deleteBookFromCollection(Long bookId) throws BookNotFoundException {
-        if (this.books.isEmpty()){
-            throw new BookNotFoundException("The book searched wasn't found in the DB");
-        }else{
-            Optional bookToDelete = this.books.stream().filter(book -> book.getId().equals(bookId))
-                    .findFirst();
-            if (bookToDelete.isPresent()) {
-                this.books.remove(bookToDelete);
-            }else{ throw new BookNotFoundException("The book searched wasn't found in the DB"); }
-        }
+        Optional book_to_delete = this.books.stream().filter(book -> book.getId().equals(bookId))
+                .findFirst();
+        if (book_to_delete.isPresent()) {
+            this.books.remove(book_to_delete);
+        }else{ throw new BookNotFoundException("The book searched wasn't found in the books collection of the user"); }
     }
 }
