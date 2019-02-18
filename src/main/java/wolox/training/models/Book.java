@@ -1,6 +1,8 @@
 package wolox.training.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -34,6 +36,9 @@ public class Book {
 
     @Column(nullable = false)
     private Integer pages;
+
+    @ManyToMany(mappedBy = "books")
+    private List<User> users = new ArrayList<>();
 
     public Book(){ }
 
@@ -123,5 +128,13 @@ public class Book {
 
     public void setPages(Integer pages) {
         this.pages = pages;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
