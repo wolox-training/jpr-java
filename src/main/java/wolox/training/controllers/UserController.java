@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
 import java.util.Optional;
@@ -16,6 +18,7 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    private BookRepository bookRepository;
 
     @GetMapping
     public Iterable findAll() {
@@ -23,8 +26,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional findOne(@PathVariable Long id) throws BookNotFoundException {
-        return userRepository.findById(id);
+    public User findOne(@PathVariable Long id) throws UserNotFoundException {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("The user searched wasn't found in the DB"));
     }
 
     @PostMapping
@@ -43,17 +47,19 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    @PostMapping("/addBook/{username}")
-    public User addBookToCollection(@RequestBody Book book, @PathVariable String username) {
-        User user_requested = userRepository.findByUserName(username);
-        user_requested.addBookToCollection(book);
-        return userRepository.save(user_requested);
+    @PostMapping("/{id}/addBook/{bookId}")
+    public void addBookToCollection(@PathVariable Long id, @PathVariable Long bookId) throws UserNotFoundException, BookNotFoundException {
+        User user_requested = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("The user searched wasn't found in the DB"));
+        Book book_sent = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException("The book id sent wasn't found in the DB"));
+        user_requested.addBookToCollection(book_sent);
     }
 
-    @PostMapping("/deleteBook/{username}")
-    public User deleteBookFromCollection(@RequestBody Long bookId, @PathVariable String username) throws BookNotFoundException {
-        User user_requested = userRepository.findByUserName(username);
+    @PostMapping("{id}/deleteBook/{bookId}")
+    public void deleteBookFromCollection(@PathVariable Long id, @PathVariable Long bookId) throws BookNotFoundException, UserNotFoundException {
+        User user_requested = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("The user searched wasn't found in the DB"));
         user_requested.deleteBookFromCollection(bookId);
-        return userRepository.save(user_requested);
     }
 }
