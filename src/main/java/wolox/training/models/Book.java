@@ -1,6 +1,6 @@
 package wolox.training.models;
 
-import org.assertj.core.util.Preconditions;
+import com.google.common.base.Preconditions;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,9 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        this.author = Preconditions.checkNotNull(author, "The author entered it's not permitted because it's null");
+        Preconditions.checkArgument(!author.isEmpty() && author != null,
+                "The author cannot be empty or null");
+        this.author = author;
     }
 
     public String getImage() {
@@ -80,7 +82,9 @@ public class Book {
     }
 
     public void setImage(String image) {
-        this.image = Preconditions.checkNotNull(image, "The image can't be null");
+        Preconditions.checkArgument(!image.isEmpty() && image != null,
+                "The image cannot be empty or null");
+        this.image = image;
     }
 
     public String getTitle() {
@@ -88,7 +92,9 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        this.title = Preconditions.checkNotNull(title, "The title is mandatory");
+        Preconditions.checkArgument(!title.isEmpty() && title != null,
+                "The title cannot be empty or null");
+        this.title = title;
     }
 
     public String getSubtitle() {
@@ -96,7 +102,9 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
-        this.subtitle = Preconditions.checkNotNull(subtitle, "The subtitle is null and is not accepte");
+        Preconditions.checkArgument(!subtitle.isEmpty() && subtitle != null,
+                "The subtitle cannot be empty or null");
+        this.subtitle = subtitle;
     }
 
     public String getPublisher() {
@@ -104,6 +112,8 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+        Preconditions.checkArgument(!publisher.isEmpty() && publisher != null,
+                "The subtitle cannot be empty or null");
         this.publisher = publisher;
     }
 
@@ -112,7 +122,9 @@ public class Book {
     }
 
     public void setYear(String year) {
-        this.year = Preconditions.checkNotNull(year, "The year can't be null");
+        Preconditions.checkArgument(!year.isEmpty() && year != null,
+                "The year cannot be empty or null");
+        this.year = year;
     }
 
     public String getIsbn() {
@@ -120,7 +132,9 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
-        this.isbn = Preconditions.checkNotNull(isbn, "Isbn is null");
+        Preconditions.checkArgument(!isbn.isEmpty() && isbn != null,
+                "isbn cannot be empty or null");
+        this.isbn = isbn;
     }
 
     public Integer getPages() {
@@ -128,7 +142,9 @@ public class Book {
     }
 
     public void setPages(Integer pages) {
-        this.pages = Preconditions.checkNotNull(pages, "Pages must be different than null");
+        Preconditions.checkArgument(pages > 0,
+                "The number of pages must be greater than 0");
+        this.pages = pages;
     }
 
     public List<User> getUsers() {

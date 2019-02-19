@@ -1,6 +1,6 @@
 package wolox.training.models;
 
-import org.assertj.core.util.Preconditions;
+import com.google.common.base.Preconditions;
 import wolox.training.exceptions.BookNotFoundException;
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -45,7 +45,9 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = Preconditions.checkNotNull(username, "The username is mandatory");
+        Preconditions.checkArgument(!username.isEmpty() && username != null,
+                "The author cannot be empty or null");
+        this.username = username;
     }
 
     public String getName() {
@@ -53,7 +55,9 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = Preconditions.checkNotNull(name, "THe name entered is null");
+        Preconditions.checkArgument(!name.isEmpty() && name != null,
+                "The name of the user cannot be empty or null");
+        this.name = name;
     }
 
     public LocalDate getBirthdate() {
@@ -61,7 +65,7 @@ public class User {
     }
 
     public void setBirthdate(LocalDate birthDate) {
-        this.birthDate = Preconditions.checkNotNull(birthDate, "The birthDate cannot be null");
+        this.birthDate = Preconditions.checkNotNull(birthDate,"The birthDate is mandatory");
     }
 
     public List<Book> getBooks() {
@@ -69,7 +73,9 @@ public class User {
     }
 
     public void setBooks(List<Book> books) {
-        this.books = Preconditions.checkNotNull(books, "Books attribute cannot be null");
+        Preconditions.checkArgument(!books.isEmpty() && books != null,
+                "The Books collection cannot be empty or null");
+        this.books = books;
     }
 
     public void addBookToCollection(Book book){
