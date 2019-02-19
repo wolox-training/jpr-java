@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import org.assertj.core.util.Preconditions;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        this.author = Preconditions.checkNotNull(author, "The author entered it's not permitted because it's null");
     }
 
     public String getImage() {
@@ -79,7 +80,7 @@ public class Book {
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.image = Preconditions.checkNotNull(image, "The image can't be null");
     }
 
     public String getTitle() {
@@ -87,7 +88,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = Preconditions.checkNotNull(title, "The title is mandatory");
     }
 
     public String getSubtitle() {
@@ -95,7 +96,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+        this.genre = Preconditions.checkNotNull(genre, "The subtitle is null and is not accepte");
     }
 
     public String getPublisher() {
@@ -111,7 +112,7 @@ public class Book {
     }
 
     public void setYear(String year) {
-        this.year = year;
+        this.year = Preconditions.checkNotNull(year, "The year can't be null");
     }
 
     public String getIsbn() {
@@ -119,7 +120,7 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
-        this.isbn = isbn;
+        this.isbn = Preconditions.checkNotNull(isbn, "Isbn is null");
     }
 
     public Integer getPages() {
@@ -127,7 +128,7 @@ public class Book {
     }
 
     public void setPages(Integer pages) {
-        this.pages = pages;
+        this.pages = Preconditions.checkNotNull(pages, "Pages must be different than null");
     }
 
     public List<User> getUsers() {

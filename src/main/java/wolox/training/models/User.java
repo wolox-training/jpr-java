@@ -1,8 +1,7 @@
 package wolox.training.models;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.assertj.core.util.Preconditions;
 import wolox.training.exceptions.BookNotFoundException;
-import wolox.training.repositories.BookRepository;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private LocalDate birthdate;
+    private LocalDate birthDate;
 
     @Column(nullable = false)
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
@@ -31,10 +30,10 @@ public class User {
 
     public User(){ }
 
-    public User(String username, String name, LocalDate birthdate) {
+    public User(String username, String name, LocalDate birthDate) {
         this.username = username;
         this.name = name;
-        this.birthdate = birthdate;
+        this.birthDate = birthDate;
     }
 
     public Long getId() {
@@ -46,7 +45,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = Preconditions.checkNotNull(username, "The username is mandatory");
     }
 
     public String getName() {
@@ -54,15 +53,15 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = Preconditions.checkNotNull(name, "THe name entered is null");
     }
 
     public LocalDate getBirthdate() {
-        return birthdate;
+        return birthDate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthdate(LocalDate birthDate) {
+        this.birthDate = Preconditions.checkNotNull(birthDate, "The birthDate cannot be null");
     }
 
     public List<Book> getBooks() {
@@ -70,7 +69,7 @@ public class User {
     }
 
     public void setBooks(List<Book> books) {
-        this.books = books;
+        this.books = Preconditions.checkNotNull(books, "Books attribute cannot be null");
     }
 
     public void addBookToCollection(Book book){
