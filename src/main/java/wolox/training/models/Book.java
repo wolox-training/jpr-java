@@ -96,7 +96,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
-        this.genre = Preconditions.checkNotNull(genre, "The subtitle is null and is not accepte");
+        this.subtitle = Preconditions.checkNotNull(subtitle, "The subtitle is null and is not accepte");
     }
 
     public String getPublisher() {
