@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import com.google.common.base.Preconditions;
+import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -78,8 +79,12 @@ public class User {
         this.books = books;
     }
 
-    public void addBookToCollection(Book book){
-        this.books.add(book);
+    public void addBookToCollection(Book bookToAdd) throws BookAlreadyOwnedException {
+        Optional book_to_add = this.books.stream().filter(book -> book.equals(bookToAdd))
+                .findFirst();
+        if(book_to_add.isPresent()) {
+            throw new BookAlreadyOwnedException("The book entered is already owned by a user");
+        }else{ this.books.add(bookToAdd); }
     }
 
     public void deleteBookFromCollection(Long bookId) throws BookNotFoundException {

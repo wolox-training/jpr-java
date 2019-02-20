@@ -3,6 +3,7 @@ package wolox.training.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.Book;
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/{id}/addBook/{bookId}")
-    public void addBookToCollection(@PathVariable Long id, @PathVariable Long bookId) throws UserNotFoundException, BookNotFoundException {
+    public void addBookToCollection(@PathVariable Long id, @PathVariable Long bookId) throws UserNotFoundException, BookNotFoundException, BookAlreadyOwnedException {
         User user_requested = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("The user searched wasn't found in the DB"));
         Book book_sent = bookRepository.findById(bookId)
