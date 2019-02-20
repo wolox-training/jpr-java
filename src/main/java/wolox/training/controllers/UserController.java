@@ -10,8 +10,6 @@ import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -21,6 +19,7 @@ public class UserController {
     private BookRepository bookRepository;
 
     @GetMapping
+    @ResponseBody
     public Iterable findAll() {
         return userRepository.findAll();
     }
@@ -38,6 +37,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseBody
     public void delete(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
