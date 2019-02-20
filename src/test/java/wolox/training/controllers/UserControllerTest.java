@@ -110,7 +110,7 @@ public class UserControllerTest {
     @Test
     public void deleteOneNotFound() throws Exception {
         mvc.perform(delete("/api/users/{id}", 2l))
-                .andExpect(status().isNotFound());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -130,7 +130,7 @@ public class UserControllerTest {
         mvc.perform(put("/api/users/{id}", 2l)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(bodyUserJson))
-                .andExpect(status().isNotFound());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
