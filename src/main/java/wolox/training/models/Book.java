@@ -52,7 +52,7 @@ public class Book {
         this.setPublisher(publisher);
         this.setYear(year);
         this.setIsbn(isbn);
-        this.pages = pages;
+        this.setPages(pages);
     }
 
     public Long getId() {
