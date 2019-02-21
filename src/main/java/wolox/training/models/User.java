@@ -31,9 +31,9 @@ public class User {
     public User(){ }
 
     public User(String username, String name, LocalDate birthDate) {
-        this.username = username;
-        this.name = name;
-        this.birthDate = birthDate;
+        this.setUsername(username);
+        this.setName(name);
+        this.setBirthdate(birthDate);
     }
 
     public Long getId() {
@@ -45,7 +45,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        Preconditions.checkArgument(!username.isEmpty() && username != null,
+        Preconditions.checkArgument(username != null && !username.isEmpty(),
                 "The author cannot be empty or null");
         this.username = username;
     }
@@ -55,7 +55,7 @@ public class User {
     }
 
     public void setName(String name) {
-        Preconditions.checkArgument(!name.isEmpty() && name != null,
+        Preconditions.checkArgument(name != null && !name.isEmpty(),
                 "The name of the user cannot be empty or null");
         this.name = name;
     }
@@ -73,7 +73,7 @@ public class User {
     }
 
     public void setBooks(List<Book> books) {
-        Preconditions.checkArgument(!books.isEmpty() && books != null,
+        Preconditions.checkArgument(books != null && !books.isEmpty(),
                 "The Books collection cannot be empty or null");
         this.books = books;
     }

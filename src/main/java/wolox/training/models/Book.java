@@ -45,13 +45,13 @@ public class Book {
 
     public Book(String author, String image, String title, String subtitle, String publisher, String year,
                 String isbn, Integer pages) {
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.isbn = isbn;
+        this.setAuthor(author);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setSubtitle(subtitle);
+        this.setPublisher(publisher);
+        this.setYear(year);
+        this.setIsbn(isbn);
         this.pages = pages;
     }
 
