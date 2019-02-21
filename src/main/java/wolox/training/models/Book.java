@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +45,14 @@ public class Book {
 
     public Book(String author, String image, String title, String subtitle, String publisher, String year,
                 String isbn, Integer pages) {
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.isbn = isbn;
-        this.pages = pages;
+        this.setAuthor(author);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setSubtitle(subtitle);
+        this.setPublisher(publisher);
+        this.setYear(year);
+        this.setIsbn(isbn);
+        this.setPages(pages);
     }
 
     public Long getId() {
@@ -71,6 +72,8 @@ public class Book {
     }
 
     public void setAuthor(String author) {
+        Preconditions.checkArgument(author != null && !author.isEmpty(),
+                "The author cannot be empty or null");
         this.author = author;
     }
 
@@ -79,6 +82,8 @@ public class Book {
     }
 
     public void setImage(String image) {
+        Preconditions.checkArgument(image != null && !image.isEmpty(),
+                "The image cannot be empty or null");
         this.image = image;
     }
 
@@ -87,6 +92,8 @@ public class Book {
     }
 
     public void setTitle(String title) {
+        Preconditions.checkArgument(title != null && !title.isEmpty(),
+                "The title cannot be empty or null");
         this.title = title;
     }
 
@@ -95,6 +102,8 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
+        Preconditions.checkArgument(subtitle != null && !subtitle.isEmpty(),
+                "The subtitle cannot be empty or null");
         this.subtitle = subtitle;
     }
 
@@ -103,6 +112,8 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+        Preconditions.checkArgument(publisher != null && !publisher.isEmpty(),
+                "The subtitle cannot be empty or null");
         this.publisher = publisher;
     }
 
@@ -111,6 +122,8 @@ public class Book {
     }
 
     public void setYear(String year) {
+        Preconditions.checkArgument(year != null && !year.isEmpty(),
+                "The year cannot be empty or null");
         this.year = year;
     }
 
@@ -119,6 +132,8 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
+        Preconditions.checkArgument(isbn != null && !isbn.isEmpty(),
+                "isbn cannot be empty or null");
         this.isbn = isbn;
     }
 
@@ -127,6 +142,8 @@ public class Book {
     }
 
     public void setPages(Integer pages) {
+        Preconditions.checkArgument(pages != null && pages > 0,
+                "The number of pages can't be null and must be greater than 0");
         this.pages = pages;
     }
 

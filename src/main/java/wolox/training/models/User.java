@@ -1,8 +1,7 @@
 package wolox.training.models;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.common.base.Preconditions;
 import wolox.training.exceptions.BookNotFoundException;
-import wolox.training.repositories.BookRepository;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private LocalDate birthdate;
+    private LocalDate birthDate;
 
     @Column(nullable = false)
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
@@ -31,10 +30,10 @@ public class User {
 
     public User(){ }
 
-    public User(String username, String name, LocalDate birthdate) {
-        this.username = username;
-        this.name = name;
-        this.birthdate = birthdate;
+    public User(String username, String name, LocalDate birthDate) {
+        this.setUsername(username);
+        this.setName(name);
+        this.setBirthdate(birthDate);
     }
 
     public Long getId() {
@@ -46,6 +45,8 @@ public class User {
     }
 
     public void setUsername(String username) {
+        Preconditions.checkArgument(username != null && !username.isEmpty(),
+                "The author cannot be empty or null");
         this.username = username;
     }
 
@@ -54,15 +55,17 @@ public class User {
     }
 
     public void setName(String name) {
+        Preconditions.checkArgument(name != null && !name.isEmpty(),
+                "The name of the user cannot be empty or null");
         this.name = name;
     }
 
     public LocalDate getBirthdate() {
-        return birthdate;
+        return birthDate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthdate(LocalDate birthDate) {
+        this.birthDate = Preconditions.checkNotNull(birthDate,"The birthDate is mandatory");
     }
 
     public List<Book> getBooks() {
@@ -70,6 +73,8 @@ public class User {
     }
 
     public void setBooks(List<Book> books) {
+        Preconditions.checkArgument(books != null && !books.isEmpty(),
+                "The Books collection cannot be empty or null");
         this.books = books;
     }
 
