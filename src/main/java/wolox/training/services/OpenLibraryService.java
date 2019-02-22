@@ -35,7 +35,7 @@ public class OpenLibraryService {
     private Book bookParserFromJson(String rawJsonResponse, String isbn) throws JSONException {
         JSONObject jsonRaw = new JSONObject(rawJsonResponse);
         if (jsonRaw.has("ISBN:" + isbn)) {
-            JSONObject bookData = jsonRaw.getJSONObject("ISBN:0385472579");
+            JSONObject bookData = jsonRaw.getJSONObject("ISBN:" + isbn);
             Book bookParsed = new Book();
             String allAuthorsConcatenated = "";
             String allPublishersConcatenated = "";
