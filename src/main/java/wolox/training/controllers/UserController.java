@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserNotFoundException;
+import wolox.training.helpers.Password;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
@@ -49,10 +50,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}/password")
-    public void updatePassword(@RequestBody Password request, @PathVariable Long id) {
+    public void updatePassword(@RequestBody Password updatePassword, @PathVariable Long id) throws UserNotFoundException {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
-        user.setPassword(request.getPassword());
+                .orElseThrow(() -> new UserNotFoundException("The ID sent didn't match any user in the DB"));
+        user.setPassword(updatePassword.getPassword());
     }
 
     @PostMapping("/{id}/addBook/{bookId}")
