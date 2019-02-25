@@ -2,12 +2,14 @@ package wolox.training.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
+import wolox.training.services.OpenLibraryService;
 
 @RestController
 @RequestMapping("/api/books")
@@ -15,6 +17,9 @@ public class BookController {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private OpenLibraryService openLibraryService;
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -59,5 +64,19 @@ public class BookController {
         bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("The book searched wasn't found in the DB"));
         return bookRepository.save(book);
+    }
+
+    @GetMapping("isbn/{isbn}")
+    public ResponseEntity<Book> findByIsbn(@PathVariable String isbn){
+        Book requestedBook = this.bookRepository.findByIsbn(isbn);
+        if (requestedBook == null){
+            requestedBook = this.openLibraryService.renderBookWithExternalApi(isbn);
+            if (requestedBook == null){
+                return new ResponseEntity(System.getenv("There is no book in the system that has the ISBN entered"),
+                        HttpStatus.BAD_REQUEST);
+            }
+            this.bookRepository.save(requestedBook);
+        }
+        return new ResponseEntity<>(requestedBook, HttpStatus.OK);
     }
 }
