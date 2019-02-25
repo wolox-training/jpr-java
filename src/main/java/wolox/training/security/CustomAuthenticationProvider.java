@@ -27,9 +27,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         User user = userRepository.findByUsername(userName);
         if (user == null) {
-            throw new BadCredentialsException("Invalid user or password");
+            throw new BadCredentialsException("Invalid user");
         } else if (!user.validPassword(password)) {
-            throw new BadCredentialsException("Invalid user or password");
+            throw new BadCredentialsException("Invalid password");
         } else {
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
             grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
