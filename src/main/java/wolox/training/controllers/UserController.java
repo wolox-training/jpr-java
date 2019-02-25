@@ -48,6 +48,13 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @PutMapping("/{id}/password")
+    public void updatePassword(@RequestBody Password request, @PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+        user.setPassword(request.getPassword());
+    }
+
     @PostMapping("/{id}/addBook/{bookId}")
     public void addBookToCollection(@PathVariable Long id, @PathVariable Long bookId) throws UserNotFoundException, BookNotFoundException, BookAlreadyOwnedException {
         User user_requested = userRepository.findById(id)

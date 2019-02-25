@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import com.google.common.base.Preconditions;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
 import javax.persistence.*;
@@ -28,6 +29,11 @@ public class User {
     @Column(nullable = false)
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private List<Book> books = new ArrayList<>();
+
+    @Column(nullable = false)
+    private String password;
+
+    private String role = "USER";
 
     public User(){ }
 
@@ -77,6 +83,26 @@ public class User {
         Preconditions.checkArgument(books != null && !books.isEmpty(),
                 "The Books collection cannot be empty or null");
         this.books = books;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
+    public boolean validPassword(String password) {
+        return new BCryptPasswordEncoder().matches(password, this.password);
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public void addBookToCollection(Book bookToAdd) throws BookAlreadyOwnedException {
