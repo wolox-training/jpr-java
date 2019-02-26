@@ -125,4 +125,55 @@ public class BooksRepositoryTest {
         Book bookFound = bookRepository.findById(testBook.getId()).get();
         assertThat(bookFound).isEqualTo(testBook);
     }
+
+    @Test
+    public void findByTitleFailTest() {
+        Book testBook = new Book();
+        testBook.setTitle("title2");
+        testBook.setGenre("genre1");
+        testBook.setAuthor("author1");
+        testBook.setImage("image1");
+        testBook.setIsbn("isbn1");
+        testBook.setPages(10000);
+        testBook.setSubtitle("subtitle1");
+        testBook.setPublisher("publisher1");
+        testBook.setYear("1999");
+        entityManager.persistAndFlush(testBook);
+        Book bookFound = bookRepository.findByTitle("title1");
+        assertThat(bookFound).isNotEqualTo(testBook);
+    }
+
+    @Test
+    public void findAllFailTest() {
+        Book testBook = new Book();
+        testBook.setTitle("title1");
+        testBook.setGenre("genre1");
+        testBook.setAuthor("author1");
+        testBook.setImage("image1");
+        testBook.setIsbn("isbn1");
+        testBook.setPages(10000);
+        testBook.setSubtitle("subtitle1");
+        testBook.setPublisher("publisher1");
+        testBook.setYear("1999");
+
+        Book testBook2 = new Book();
+        testBook2.setTitle("title2");
+        testBook2.setGenre("genre2");
+        testBook2.setAuthor("author2");
+        testBook2.setImage("image2");
+        testBook2.setIsbn("isbn2");
+        testBook2.setPages(20000);
+        testBook2.setSubtitle("subtitle2");
+        testBook2.setPublisher("publisher2");
+        testBook2.setYear("2000");
+
+        List<Book> booksList = Arrays.asList(testBook, testBook2);
+
+        for(Book book : booksList) {
+            entityManager.persistAndFlush(book);
+        }
+
+        List<Book> booksFound = bookRepository.findAll();
+        assertThat(booksFound.size()).isNotEqualTo(3);
+    }
 }
