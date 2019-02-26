@@ -1,5 +1,6 @@
 package wolox.training.repositories;
 
+import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import wolox.training.models.Book;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -126,7 +128,7 @@ public class BooksRepositoryTest {
         assertThat(bookFound).isEqualTo(testBook);
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void findByTitleFailTest() {
         Book testBook = new Book();
         testBook.setTitle("title2");
@@ -139,12 +141,11 @@ public class BooksRepositoryTest {
         testBook.setPublisher("publisher1");
         testBook.setYear("1999");
         entityManager.persistAndFlush(testBook);
-        Book bookFound = bookRepository.findByTitle("title1");
-        assertThat(bookFound).isNotEqualTo(testBook);
+        Book bookFound = bookRepository.findByTitle("false title");
     }
 
-    @Test
-    public void findAllFailTest() {
+    @Test(expected = ComparisonFailure.class)
+    public void findByAuthorFailTest() {
         Book testBook = new Book();
         testBook.setTitle("title1");
         testBook.setGenre("genre1");
@@ -155,25 +156,38 @@ public class BooksRepositoryTest {
         testBook.setSubtitle("subtitle1");
         testBook.setPublisher("publisher1");
         testBook.setYear("1999");
+        entityManager.persistAndFlush(testBook);
+        Book bookFound = bookRepository.findByAuthor("false author");
+    }
 
-        Book testBook2 = new Book();
-        testBook2.setTitle("title2");
-        testBook2.setGenre("genre2");
-        testBook2.setAuthor("author2");
-        testBook2.setImage("image2");
-        testBook2.setIsbn("isbn2");
-        testBook2.setPages(20000);
-        testBook2.setSubtitle("subtitle2");
-        testBook2.setPublisher("publisher2");
-        testBook2.setYear("2000");
+    @Test(expected = NoSuchElementException.class)
+    public void findByIdFail() {
+        Book testBook = new Book();
+        testBook.setTitle("title1");
+        testBook.setGenre("genre1");
+        testBook.setAuthor("author1");
+        testBook.setImage("image1");
+        testBook.setIsbn("isbn1");
+        testBook.setPages(10000);
+        testBook.setSubtitle("subtitle1");
+        testBook.setPublisher("publisher1");
+        testBook.setYear("1999");
+        entityManager.persistAndFlush(testBook);
+        Book bookFound = bookRepository.findById(9999L).get();
+    }
 
-        List<Book> booksList = Arrays.asList(testBook, testBook2);
-
-        for(Book book : booksList) {
-            entityManager.persistAndFlush(book);
-        }
-
-        List<Book> booksFound = bookRepository.findAll();
-        assertThat(booksFound.size()).isNotEqualTo(3);
+    @Test(expected = IllegalArgumentException.class)
+    public void saveFail() {
+        Book testBook = new Book();
+        testBook.setTitle("title1");
+        testBook.setGenre("genre1");
+        testBook.setAuthor("author1");
+        testBook.setImage("image1");
+        testBook.setIsbn("isbn1");
+        testBook.setPages(0);
+        testBook.setSubtitle("subtitle1");
+        testBook.setPublisher("publisher1");
+        testBook.setYear("1999");
+        Book saved = bookRepository.save(testBook);
     }
 }
