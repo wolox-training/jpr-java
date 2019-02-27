@@ -1,6 +1,5 @@
 package wolox.training.helpers;
 
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

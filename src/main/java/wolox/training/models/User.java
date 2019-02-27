@@ -40,7 +40,7 @@ public class User {
     public User(String username, String name, LocalDate birthDate) {
         this.setUsername(username);
         this.setName(name);
-        this.setBirthdate(birthDate);
+        this.setBirthDate(birthDate);
     }
 
     public Long getId() {
@@ -67,11 +67,11 @@ public class User {
         this.name = name;
     }
 
-    public LocalDate getBirthdate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthdate(LocalDate birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = Preconditions.checkNotNull(birthDate,"The birthDate is mandatory");
     }
 

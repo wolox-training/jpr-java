@@ -56,6 +56,7 @@ public class UserController {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("The ID sent didn't match any user in the DB"));
         user.setPassword(updatePassword.getPassword());
+        userRepository.save(user);
     }
 
     @PostMapping("/{id}/addBook/{bookId}")
