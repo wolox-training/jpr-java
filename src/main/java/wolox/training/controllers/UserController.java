@@ -2,6 +2,8 @@ package wolox.training.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
@@ -71,5 +73,12 @@ public class UserController {
         User user_requested = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("The user searched wasn't found in the DB"));
         user_requested.deleteBookFromCollection(bookId);
+    }
+
+    @GetMapping("/me")
+    public User me() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        return userRepository.findByUsername(currentUserName);
     }
 }
