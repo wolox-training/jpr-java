@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import com.google.common.base.Preconditions;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import wolox.training.exceptions.BookNotFoundException;
 import javax.persistence.*;
@@ -29,12 +30,17 @@ public class User {
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private List<Book> books = new ArrayList<>();
 
+    @Column(nullable = false)
+    private String password;
+
+    private String role = "USER";
+
     public User(){ }
 
     public User(String username, String name, LocalDate birthDate) {
         this.setUsername(username);
         this.setName(name);
-        this.setBirthdate(birthDate);
+        this.setBirthDate(birthDate);
     }
 
     public Long getId() {
@@ -61,11 +67,11 @@ public class User {
         this.name = name;
     }
 
-    public LocalDate getBirthdate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthdate(LocalDate birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = Preconditions.checkNotNull(birthDate,"The birthDate is mandatory");
     }
 
@@ -77,6 +83,26 @@ public class User {
         Preconditions.checkArgument(books != null && !books.isEmpty(),
                 "The Books collection cannot be empty or null");
         this.books = books;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
+    public boolean validPassword(String password) {
+        return new BCryptPasswordEncoder().matches(password, this.password);
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public void addBookToCollection(Book bookToAdd) throws BookAlreadyOwnedException {

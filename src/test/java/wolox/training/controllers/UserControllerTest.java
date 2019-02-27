@@ -47,7 +47,7 @@ public class UserControllerTest {
     public void findAll() throws Exception{
 
         User user = new User();
-        user.setBirthdate(LocalDate.now());
+        user.setBirthDate(LocalDate.now());
         user.setName("name1");
         user.setUsername("username1");
 
@@ -65,7 +65,7 @@ public class UserControllerTest {
     @Test
     public void findOne() throws Exception {
         someUser = new User();
-        someUser.setBirthdate(LocalDate.now());
+        someUser.setBirthDate(LocalDate.now());
         someUser.setName("name1");
         someUser.setUsername("username1");
         given(serviceUser.findById(1l)).willReturn(Optional.of(someUser));
