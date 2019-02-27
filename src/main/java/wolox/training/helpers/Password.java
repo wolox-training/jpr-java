@@ -1,8 +1,8 @@
 package wolox.training.helpers;
 
-import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class Password {
     @NotNull
