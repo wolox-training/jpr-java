@@ -90,7 +90,6 @@ public class UserController {
                                                         @RequestParam(name="to", required=false) String to,
                                                         @RequestParam(name="name", required=false) String name){
         return userRepository.findByBirthDateBetweenAndNameContainingAllIgnoreCase(LocalDate.parse(from),
-                                                                                    LocalDate.parse(to),
-                                                                                    String name);
+                                                                                    LocalDate.parse(to), name);
     }
 }
