@@ -87,8 +87,7 @@ public class UserController {
 
     @GetMapping("/daterangenamecasesensitive")
     public List<User> findBetweenDatesNameCaseSensitive(@RequestParam(name="from", required=false) String from,
-                                               @RequestParam(name="to", required=false) String to,
-                                               @RequestParam(name="name", required=false) String name){
+                                               @RequestParam(name="to", required=false) String to){
         return userRepository.findByNameContainingAllIgnoreCaseAndNameIsNull(LocalDate.parse(from), LocalDate.parse(to));
     }
 }
