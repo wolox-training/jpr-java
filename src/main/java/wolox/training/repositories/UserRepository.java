@@ -13,6 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 
     @Query(value = "select u from User u where u.birthDate > :start and u.birthDate < :end")
-    List<User> findByNameContainingAllIgnoreCaseAndNameIsNull(@Param("start") LocalDate start,
+    List<User> findByNameContainingAllIgnoreCaseOrNameIsNull(@Param("start") LocalDate start,
                                                                     @Param("end") LocalDate end);
 }
