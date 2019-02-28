@@ -11,6 +11,8 @@ import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.services.OpenLibraryService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -78,5 +80,12 @@ public class BookController {
             this.bookRepository.save(requestedBook);
         }
         return new ResponseEntity<>(requestedBook, HttpStatus.OK);
+    }
+
+    @GetMapping("/publishergenreyear")
+    public List<Book> findByPublisherGenreYear(@RequestParam(name="publisher", required=true) String publisher,
+                                               @RequestParam(name="genre", required=true) String genre,
+                                               @RequestParam(name="year", required=true) String year){
+        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
     }
 }
