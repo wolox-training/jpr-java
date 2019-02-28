@@ -83,9 +83,8 @@ public class BookController {
     }
 
     @GetMapping("/publishergenreyear")
-    public List<Book> findByPublisherGenreYear(@RequestParam(name="publisher", required=true) String publisher,
-                                               @RequestParam(name="genre", required=true) String genre,
-                                               @RequestParam(name="year", required=true) String year){
-        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+    public List<Book> findByPublisherGenreYear(@RequestParam(name="publisher", required=false) String publisher,
+                                               @RequestParam(name="genre", required=false) String genre){
+        return bookRepository.findByNameOrNameIsNull(publisher, genre);
     }
 }

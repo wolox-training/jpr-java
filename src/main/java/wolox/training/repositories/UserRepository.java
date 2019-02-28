@@ -1,6 +1,8 @@
 package wolox.training.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import wolox.training.models.User;
 
 import java.time.LocalDate;
@@ -10,5 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
-    List<User> findByBirthDateBetweenAndNameContainingAllIgnoreCase(LocalDate from, LocalDate to, String name);
+    @Query(value = "select u from User u where u.birthDate > :start and u.birthDate < :end")
+    List<User> findByNameContainingAllIgnoreCaseAndNameIsNull(@Param("start") LocalDate start,
+                                                                    @Param("end") LocalDate end);
 }
