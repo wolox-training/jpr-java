@@ -14,6 +14,9 @@ import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -80,5 +83,12 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         return userRepository.findByUsername(currentUserName);
+    }
+
+    @GetMapping("/daterangenamecasesensitive")
+    public List<User> findBetweenDatesNameCaseSensitive(@RequestParam(name="from", required=true) String from,
+                                               @RequestParam(name="to", required=true) String to,
+                                               @RequestParam(name="name", required=true) String name){
+        return userRepository.findByBirthDateBetweenAndNameContainingAllIgnoreCase(LocalDate.parse(from), LocalDate.parse(to), name);
     }
 }
