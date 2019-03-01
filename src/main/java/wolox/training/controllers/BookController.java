@@ -1,6 +1,7 @@
 package wolox.training.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -30,8 +31,11 @@ public class BookController {
     }
 
     @GetMapping
-    public Iterable findAll() {
-        return bookRepository.findAll();
+    @ResponseBody
+    public Iterable findAll(@RequestParam(defaultValue = "publisher") String publisher,
+                            @RequestParam(defaultValue = "genre") String  genre,
+                            @RequestParam(defaultValue = "1999") String year) {
+        return bookRepository.findAll(publisher, genre, year);
     }
 
     @GetMapping("/title/{bookTitle}")
