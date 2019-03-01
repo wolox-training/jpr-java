@@ -27,11 +27,12 @@ public class UserController {
 
     @GetMapping
     @ResponseBody
-    public Iterable findAll(@RequestParam(defaultValue = "name") String start,
-                            @RequestParam(defaultValue = "name") String end,
-                            @RequestParam(defaultValue = "name") String name) {
-        return userRepository.findAll(LocalDate.parse(start),
-                LocalDate.parse(end), name);
+    public Iterable findAll(@RequestParam(defaultValue = "") String start,
+                            @RequestParam(defaultValue = "") String end,
+                            @RequestParam(defaultValue = "") String name) {
+        if (start.equals("")) { start = null; }
+        if (end.equals("")) { end = null; }
+        return userRepository.findAll(LocalDate.parse(start), LocalDate.parse(end), name);
     }
 
     @GetMapping("/{id}")

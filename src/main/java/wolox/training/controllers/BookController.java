@@ -32,9 +32,9 @@ public class BookController {
 
     @GetMapping
     @ResponseBody
-    public Iterable findAll(@RequestParam(defaultValue = "publisher") String publisher,
-                            @RequestParam(defaultValue = "genre") String  genre,
-                            @RequestParam(defaultValue = "1999") String year) {
+    public Iterable findAll(@RequestParam(defaultValue = "") String publisher,
+                            @RequestParam(defaultValue = "") String  genre,
+                            @RequestParam(defaultValue = "") String year) {
         return bookRepository.findAll(publisher, genre, year);
     }
 
