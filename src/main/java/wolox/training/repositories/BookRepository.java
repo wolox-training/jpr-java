@@ -18,4 +18,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "AND (b.genre = :genre or b.genre is null) AND (b.year = :year or b.year is null)")
     List<Book> findByPublisherAndGenreAndYear(String publisher, String genre, String year);
 
+    @Query(value = "select b from Book b where (b.title like %:bookTitle%) AND (b.genre like %:genre%) " +
+                    "AND (b.author like %:author%)")
+    Iterable findAll(String bookTitle, String genre, String author);
+
 }

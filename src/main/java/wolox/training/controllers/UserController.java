@@ -27,8 +27,12 @@ public class UserController {
 
     @GetMapping
     @ResponseBody
-    public Iterable findAll() {
-        return userRepository.findAll();
+    public Iterable findAll(@RequestParam(defaultValue = "") String start,
+                            @RequestParam(defaultValue = "") String end,
+                            @RequestParam(defaultValue = "") String name) {
+        if (start.equals("")) { start = null; }
+        if (end.equals("")) { end = null; }
+        return userRepository.findAll(LocalDate.parse(start), LocalDate.parse(end), name);
     }
 
     @GetMapping("/{id}")
