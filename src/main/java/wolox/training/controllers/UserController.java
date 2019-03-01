@@ -1,6 +1,8 @@
 package wolox.training.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +17,6 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,12 +28,12 @@ public class UserController {
 
     @GetMapping
     @ResponseBody
-    public Iterable findAll(@RequestParam(defaultValue = "") String start,
-                            @RequestParam(defaultValue = "") String end,
-                            @RequestParam(defaultValue = "") String name) {
+    public Page<User> findAll(@RequestParam(defaultValue = "") String start,
+                              @RequestParam(defaultValue = "") String end,
+                              @RequestParam(defaultValue = "") String name, Pageable pageable) {
         if (start.equals("")) { start = null; }
         if (end.equals("")) { end = null; }
-        return userRepository.findAll(LocalDate.parse(start), LocalDate.parse(end), name);
+        return userRepository.findAll(LocalDate.parse(start), LocalDate.parse(end), name, pageable);
     }
 
     @GetMapping("/{id}")
@@ -90,10 +91,12 @@ public class UserController {
     }
 
     @GetMapping("/daterangenamecasesensitive")
-    public List<User> findBetweenDatesNameCaseSensitive(@RequestParam(name="from", required=false) String from,
+    public Page<User> findBetweenDatesNameCaseSensitive(@RequestParam(name="from", required=false) String from,
                                                         @RequestParam(name="to", required=false) String to,
-                                                        @RequestParam(name="name", required=false) String name){
+                                                        @RequestParam(name="name", required=false) String name,
+                                                        Pageable pageable){
         return userRepository.findByBirthDateBetweenAndNameContainingAllIgnoreCase(LocalDate.parse(from),
-                                                                                    LocalDate.parse(to), name);
+                                                                                    LocalDate.parse(to),
+                                                                                    name, pageable);
     }
 }
