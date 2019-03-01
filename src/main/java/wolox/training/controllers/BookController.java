@@ -1,7 +1,8 @@
 package wolox.training.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -11,8 +12,6 @@ import wolox.training.repositories.BookRepository;
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.services.OpenLibraryService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
@@ -32,10 +31,10 @@ public class BookController {
 
     @GetMapping
     @ResponseBody
-    public Iterable findAll(@RequestParam(defaultValue = "") String publisher,
-                            @RequestParam(defaultValue = "") String  genre,
-                            @RequestParam(defaultValue = "") String year) {
-        return bookRepository.findAll(publisher, genre, year);
+    public Page<Book> findAll(@RequestParam(defaultValue = "") String publisher,
+                              @RequestParam(defaultValue = "") String  genre,
+                              @RequestParam(defaultValue = "") String year, Pageable pageable) {
+        return bookRepository.findAll(publisher, genre, year, pageable);
     }
 
     @GetMapping("/title/{bookTitle}")
@@ -87,9 +86,10 @@ public class BookController {
     }
 
     @GetMapping("/publishergenreyear")
-    public List<Book> findByPublisherGenreYear(@RequestParam(name="publisher", required=false) String publisher,
+    public Page<Book> findByPublisherGenreYear(@RequestParam(name="publisher", required=false) String publisher,
                                                @RequestParam(name="genre", required=false) String genre,
-                                               @RequestParam(name="year", required=false) String year){
-        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+                                               @RequestParam(name="year", required=false) String year,
+                                               Pageable pageable){
+        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year, pageable);
     }
 }
