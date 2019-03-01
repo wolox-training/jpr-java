@@ -7,7 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import wolox.training.models.User;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 

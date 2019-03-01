@@ -13,8 +13,6 @@ import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.services.OpenLibraryService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/books")
 public class BookController {

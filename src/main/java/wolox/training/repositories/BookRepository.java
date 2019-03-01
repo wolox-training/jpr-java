@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import wolox.training.models.Book;
 
-import java.util.List;
-
 public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
 
     Book findByAuthor(String author);
