@@ -17,7 +17,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     Page<User> findByBirthDateBetweenAndNameContainingAllIgnoreCase(LocalDate start, LocalDate end, String name,
                                                                     Pageable pageable);
 
-    @Query(value = "select u from User u where u.birthDate is null or ((u.birthDate > :start and u.birthDate < :end)" +
+    @Query(value = "select u from User u where (u.birthDate is null or (u.birthDate > :start and u.birthDate < :end))" +
             "AND (u.name like %:name%)")
     Page<User> findAll(LocalDate start, LocalDate end, String name, Pageable pageable);
 }

@@ -91,7 +91,7 @@ public class BooksRepositoryTest {
             entityManager.persistAndFlush(book);
         }
 
-        List<Book> booksFound = bookRepository.findAll();
+        List<Book> booksFound = (List<Book>) bookRepository.findAll();
         assertThat(booksFound.size()).isEqualTo(2);
     }
 
